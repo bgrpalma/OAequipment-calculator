@@ -415,6 +415,7 @@
     <div class="item">
         <label>
             <input type="checkbox" class="item-checkbox" data-a-price="10" data-b-price="15"> Kayak Paddle
+        </label>
         Quantity: <input type="number" class="quantity" value="1" min="1">
         
     </div>
@@ -469,19 +470,19 @@
 
     <!-- ... Continue adding similar blocks for all items ... -->
 
-    <button onclick="calculateTotal()">Calculate Total</button>
+       <button onclick="calculateTotal()">Calculate Total</button>
 
     <div id="total"></div>
 
     <script>
         function calculateTotal() {
             const pricing = document.querySelector('input[name="pricing"]:checked').value;
+            const days = document.getElementById('days').value;
             let total = 0;
 
             document.querySelectorAll('.item-checkbox').forEach((checkbox, index) => {
                 if (checkbox.checked) {
                     const quantity = document.querySelectorAll('.quantity')[index].value;
-                    const days = document.querySelectorAll('.days')[index].value;
                     const basePrice = (pricing === 'A') ? checkbox.dataset.aPrice : checkbox.dataset.bPrice;
                     const dailyRate = basePrice / 4;
                     const itemTotal = (basePrice * quantity) + ((days - 4) * dailyRate * quantity);
