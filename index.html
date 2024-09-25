@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Equipment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .item {
+            margin-bottom: 15px;
+        }
+        label {
+            display: inline-block;
+            width: 200px;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        #total {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rental Equipment</h1>
+    <p>Select the equipment, choose your pricing category, and enter the quantity and number of rental days.</p>
+    
+    <div>
+        <label>
+            <input type="radio" name="pricing" value="A" checked> UC Davis Student
+        </label>
+        <label>
+            <input type="radio" name="pricing" value="B"> Non-UC Davis
+        </label>
+    </div>
+    
+    <div class="item">
+        <label>
+            <input type="checkbox" class="item-checkbox" data-a-price="20" data-b-price="35"> 2-Person Tent
+        </label>
+        Quantity: <input type="number" class="quantity" value="1" min="1">
+        Days: <input type="number" class="days" value="4" min="4">
+    </div>
+    
+    <div class="item">
+        <label>
+            <input type="checkbox" class="item-checkbox" data-a-price="22" data-b-price="37"> 3-Person Tent
+        </label>
+        Quantity: <input type="number" class="quantity" value="1" min="1">
+        Days: <input type="number" class="days" value="4" min="4">
+    </div>
+
+    <!-- Add more items similarly -->
+
+    <button onclick="calculateTotal()">Calculate Total</button>
+
+    <div id="total"></div>
+
+    <script>
+        function calculateTotal() {
+            const pricing = document.querySelector('input[name="pricing"]:checked').value;
+            let total = 0;
+
+            document.querySelectorAll('.item-checkbox').forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    const quantity = document.querySelectorAll('.quantity')[index].value;
+                    const days = document.querySelectorAll('.days')[index].value;
+                    const basePrice = (pricing === 'A') ? checkbox.dataset.aPrice : checkbox.dataset.bPrice;
+                    const dailyRate = basePrice / 4;
+                    const itemTotal = (basePrice * quantity) + ((days - 4) * dailyRate * quantity);
+                    total += itemTotal;
+                }
+            });
+
+            document.getElementById('total').innerText = `Total Cost: $${total.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
